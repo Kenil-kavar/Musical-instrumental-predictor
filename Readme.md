@@ -12,6 +12,7 @@ Install the required packages for audio processing and embedding:
 !pip install audioread
 !pip install PySoundFile
 !pip install tensorflow_io
+!pip install gradio
 
 # Reinstall TensorFlow to avoid conflicts
 !pip uninstall -y tensorflow tensorflow_io
