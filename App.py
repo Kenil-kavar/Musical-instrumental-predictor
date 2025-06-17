@@ -15,7 +15,7 @@ except ImportError:
     !pip install -q tensorflow==2.11.* librosa soundfile pandas matplotlib
     import soundfile
 
-# Set random seed
+
 tf.random.set_seed(42)
 np.random.seed(42)
 
@@ -58,7 +58,7 @@ def infer_instrument_from_filename(filename):
         return 'guitar'
     raise ValueError(f"Filename {filename} does not contain 'drum' or 'guitar'.")
 
-# Load WAV files
+# Loading the WAV files
 data_path = './new_audio'
 if not os.path.exists(data_path):
     raise FileNotFoundError(f"Directory {data_path} does not exist.")
@@ -79,11 +79,11 @@ for f in sorted(os.listdir(data_path)):
             print(f"Skipping file {f}: {e}")
 filenames = valid_filenames
 
-# Print class distribution
+# Print all the class distribution
 class_counts = {instrument: labels.count(idx) for idx, instrument in enumerate(my_classes)}
 print("Class distribution:", class_counts)
 
-# Split data
+# Spliting data
 if len(filenames) < 5:
     raise ValueError("Not enough files for train/val/test split. Need at least 5 files.")
 train_files, test_files, train_labels, test_labels = train_test_split(
@@ -149,12 +149,12 @@ history = my_model.fit(
     callbacks=[callback]
 )
 
-# Evaluate model
+# Evaluating the model
 loss, accuracy = my_model.evaluate(test_ds)
 print(f"Test Loss: {loss:.4f}")
 print(f"Test Accuracy: {accuracy:.4f}")
 
-# Define ReduceMeanLayer
+# Defined ReduceMeanLayer
 class ReduceMeanLayer(tf.keras.layers.Layer):
     def __init__(self, axis=0, **kwargs):
         super().__init__(**kwargs)
@@ -182,7 +182,7 @@ class ServingModel(tf.Module):
         outputs = self.reduce_mean(outputs)
         return {'classifier': outputs}
 
-# Create and save serving model
+# save serving model
 serving_model = ServingModel(yamnet_model, my_model)
 saved_model_path = './instrument_yamnet'
 try:
